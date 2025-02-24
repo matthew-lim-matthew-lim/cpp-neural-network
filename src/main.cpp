@@ -7,19 +7,19 @@
 
 // Initialisation //////////////////////////////////////////////
 Eigen::MatrixXd initW1() {
-  Eigen::MatrixXd W1 = Eigen::MatrixXd::Random(10, 784);
+  Eigen::MatrixXd W1 = Eigen::MatrixXd::Random(20, 784);
   W1 *= 0.5;
   return W1;
 }
 
 Eigen::MatrixXd initb1() {
-  Eigen::MatrixXd b1 = Eigen::MatrixXd::Random(10, 1);
+  Eigen::MatrixXd b1 = Eigen::MatrixXd::Random(20, 1);
   b1 *= 0.5;
   return b1;
 }
 
 Eigen::MatrixXd initW2() {
-  Eigen::MatrixXd W2 = Eigen::MatrixXd::Random(10, 10);
+  Eigen::MatrixXd W2 = Eigen::MatrixXd::Random(10, 20);
   W2 *= 0.5;
   return W2;
 }
