@@ -164,6 +164,8 @@ The dataset comes from the MNIST database, a pretty well known collection of han
 
 - Use vectorised functions from the `Eigen` library instead of operations like loops. The functions in `Eigen` are optimised and use things like template metaprogramming (which is optimised at compile time).
 
-## Compiling
+## Other
 
 - `-O3` compile optimisation flag makes the program super fast!
+- Use `&` references to avoid copying.
+- Use `const` when not dealing with mutable data.

@@ -274,7 +274,7 @@ int main() {
             << std::endl;
   std::cout << "m_train: " << m_train << std::endl;
 
-  gradient_descent(X_train, Y_train, 0.10, 1000);
+  gradient_descent(X_train, Y_train, 0.10, 2000);
 
   return 0;
 }
