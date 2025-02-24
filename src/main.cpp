@@ -126,13 +126,14 @@ backwardProp(Eigen::MatrixXd Z1, Eigen::MatrixXd A1, Eigen::MatrixXd A2,
              Eigen::MatrixXd W2, Eigen::MatrixXd X, Eigen::MatrixXd Y) {
   Eigen::MatrixXd oneHotY = oneHotEncode(Y);
   Eigen::MatrixXd dZ2 = A2 - oneHotY;
-  int m = Y.cols() + X.cols();
-  Eigen::MatrixXd dW2 = 1 / m * (dZ2 * A1.transpose());
+  // Both X and Y have 'm' columns
+  int m = Y.cols();
+  Eigen::MatrixXd dW2 = 1.0 / m * (dZ2 * A1.transpose());
   // Sum for each node accross 'm' testcases.
   Eigen::MatrixXd db2 = dZ2.rowwise().sum() / m;
-  // Use the Hadamard Product
+  // Use the Hadamard Product 'cwiseProduct()'
   Eigen::MatrixXd dZ1 = (W2.transpose() * dZ2).cwiseProduct(ReLuDeriv(Z1));
-  Eigen::MatrixXd dW1 = 1 / m * dZ1 * X.transpose();
+  Eigen::MatrixXd dW1 = 1.0 / m * dZ1 * X.transpose();
   Eigen::MatrixXd db1 = dZ1.rowwise().sum() / m;
 
   return {dW1, db1, dW2, db2};
