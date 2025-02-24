@@ -4,7 +4,7 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -Wall -Wextra -std=c++20
+CXXFLAGS = -O3 -Wall -Wextra -std=c++20
 
 # Libraries
 LDFLAGS = 
