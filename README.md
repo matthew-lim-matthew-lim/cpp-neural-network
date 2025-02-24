@@ -59,7 +59,7 @@ $$A_i^{[2]} = \frac{e^{Z_i^{[2]}}}{\sum_j e^{Z_j^{[2]}}}$$
 
 ## Compute Loss Function
 
-$$J = -\frac{1}{m} \sum ^m _{i=1} \sum ^{n^{[2]}}_{j=1} Y_j ^{(i)} \log (A_j ^{[2](i)})$$
+$$ J = -\frac{1}{m} \sum ^m _{i=1} \sum ^{n^{[2]}}_{j=1} Y_j ^{(i)} \log (A_j ^{[2](i)}) $$
 
 - Measures the difference between the predicted outputs $A^{[2]}$ and the true labels $Y$.
 - Symbols 
@@ -125,7 +125,8 @@ $$dZ^{[1]} = W^{[2]T}dZ^{[2]}\cdot ReLU'(Z^{[1]})$$
 > which means that we have the simple result 
 > $$\frac{\partial A^{[1]}}{\partial Z^{[1]}} = ReLU'(Z^{[1]})$$
 > And so finally we have:
-> $$dZ^{[1]} = \frac{\partial J}{\partial Z^{[1]}} = \frac{\partial J}{\partial A^{[1]}} \cdot \frac{\partial A^{[1]}}{\partial Z^{[1]}} = W^{[2]T} dZ^{[2]} \cdot ReLU'(Z^{[1]})$$
+> $$dZ^{[1]} = \frac{\partial J}{\partial Z^{[1]}} = \frac{\partial J}{\partial A^{[1]}} \cdot \frac{\partial A^{[1]}}{\partial Z^{[1]}} = W^{[2]T} dZ^{[2]} \odot ReLU'(Z^{[1]})$$
+> Where $\odot$ refers to the Hadamard product, which is element-wise multiplication.
 
 #### Gradient of Weights $W^{[1]}$:
 

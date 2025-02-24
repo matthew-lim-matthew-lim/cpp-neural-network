@@ -34,7 +34,7 @@ Eigen::MatrixXd initb2() {
 
 // Operates on each element. If less than 0, makes the element 0.
 // Introduces non-linearity into the network.
-Eigen::MatrixXd ReLU(Eigen::MatrixXd z) {
+Eigen::MatrixXd ReLU(Eigen::MatrixXd &z) {
   for (int i = 0; i < z.rows(); i++) {
     for (int j = 0; j < z.cols(); j++) {
       z(i, j) = std::max(z(i, j), 0.0);
@@ -45,7 +45,7 @@ Eigen::MatrixXd ReLU(Eigen::MatrixXd z) {
 }
 
 // The derivative is simply 1 if the element is bigger than 0, and 0 otherwise.
-Eigen::MatrixXd ReLuDeriv(Eigen::MatrixXd z) {
+Eigen::MatrixXd ReLuDeriv(Eigen::MatrixXd &z) {
   Eigen::MatrixXd zDeriv = z;
   for (int i = 0; i < z.rows(); i++) {
     for (int j = 0; j < z.cols(); j++) {
@@ -79,28 +79,28 @@ Eigen::MatrixXd softMax(Eigen::MatrixXd &z) {
 // Forward Propagation /////////////////////////////////////
 
 // Calculate raw node activations
-Eigen::MatrixXd forwardPropZ1(Eigen::MatrixXd W1, Eigen::MatrixXd b1,
-                              Eigen::MatrixXd X) {
+Eigen::MatrixXd forwardPropZ1(Eigen::MatrixXd &W1, Eigen::MatrixXd &b1,
+                              Eigen::MatrixXd &X) {
   return W1 * X + b1.replicate(1, X.cols());
 }
 
 // Apply ReLU to node activations
-Eigen::MatrixXd forwardPropA1(Eigen::MatrixXd Z1) { return ReLU(Z1); }
+Eigen::MatrixXd forwardPropA1(Eigen::MatrixXd &Z1) { return ReLU(Z1); }
 
 // Calculate edge weights
-Eigen::MatrixXd forwardPropZ2(Eigen::MatrixXd W2, Eigen::MatrixXd A1,
-                              Eigen::MatrixXd b2) {
+Eigen::MatrixXd forwardPropZ2(Eigen::MatrixXd &W2, Eigen::MatrixXd &A1,
+                              Eigen::MatrixXd &b2) {
   return W2 * A1 + b2.replicate(1, A1.cols());
 }
 
 // Calculate output layer node activations
-Eigen::MatrixXd forwardPropA2(Eigen::MatrixXd Z2) { return softMax(Z2); }
+Eigen::MatrixXd forwardPropA2(Eigen::MatrixXd &Z2) { return softMax(Z2); }
 
 // Backward Propagation /////////////////////////////////////
 
 // One hot encode to convert our array of results into a matrix
 // where each row (testcase) has a column 1-hot-encoded.
-Eigen::MatrixXd oneHotEncode(Eigen::MatrixXd Y) {
+Eigen::MatrixXd oneHotEncode(Eigen::MatrixXd &Y) {
   double maxVal = 0;
   for (int i = 0; i < Y.rows(); i++) {
     for (int j = 0; j < Y.cols(); j++) {
@@ -122,8 +122,8 @@ Eigen::MatrixXd oneHotEncode(Eigen::MatrixXd Y) {
 }
 
 std::vector<Eigen::MatrixXd>
-backwardProp(Eigen::MatrixXd Z1, Eigen::MatrixXd A1, Eigen::MatrixXd A2,
-             Eigen::MatrixXd W2, Eigen::MatrixXd X, Eigen::MatrixXd Y) {
+backwardProp(Eigen::MatrixXd &Z1, Eigen::MatrixXd &A1, Eigen::MatrixXd &A2,
+             Eigen::MatrixXd &W2, Eigen::MatrixXd &X, Eigen::MatrixXd &Y) {
   Eigen::MatrixXd oneHotY = oneHotEncode(Y);
   Eigen::MatrixXd dZ2 = A2 - oneHotY;
   // Both X and Y have 'm' columns
@@ -148,7 +148,7 @@ void update(Eigen::MatrixXd &W1, Eigen::MatrixXd &b1, Eigen::MatrixXd &W2,
   b2 = b2 - alpha * db2;
 }
 
-Eigen::MatrixXd getPredictions(Eigen::MatrixXd A2) {
+Eigen::MatrixXd getPredictions(Eigen::MatrixXd &A2) {
   Eigen::MatrixXd predictions(1, A2.cols());
   for (int j = 0; j < A2.cols(); ++j) {
     int maxIndex;
@@ -173,9 +173,9 @@ double getAccuracy(const Eigen::MatrixXd &predictions,
   return correctCount / totalElements;
 }
 
-std::vector<Eigen::MatrixXd> gradient_descent(const Eigen::MatrixXd &X,
-                                              const Eigen::MatrixXd &Y,
-                                              double alpha, int iterations) {
+std::vector<Eigen::MatrixXd> gradient_descent(Eigen::MatrixXd &X,
+                                              Eigen::MatrixXd &Y, double alpha,
+                                              int iterations) {
   Eigen::MatrixXd W1 = initW1();
   Eigen::MatrixXd b1 = initb1();
   Eigen::MatrixXd W2 = initW2();
