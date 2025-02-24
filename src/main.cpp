@@ -34,26 +34,15 @@ Eigen::MatrixXd initb2() {
 
 // Operates on each element. If less than 0, makes the element 0.
 // Introduces non-linearity into the network.
-Eigen::MatrixXd ReLU(Eigen::MatrixXd &z) {
-  for (int i = 0; i < z.rows(); i++) {
-    for (int j = 0; j < z.cols(); j++) {
-      z(i, j) = std::max(z(i, j), 0.0);
-    }
-  }
-
-  return z;
+Eigen::MatrixXd ReLU(const Eigen::MatrixXd &z) {
+  // Use vectorised version for performance. Returns z element-wise max(0, z).
+  return z.array().max(0.0).matrix();
 }
 
 // The derivative is simply 1 if the element is bigger than 0, and 0 otherwise.
-Eigen::MatrixXd ReLuDeriv(Eigen::MatrixXd &z) {
-  Eigen::MatrixXd zDeriv = z;
-  for (int i = 0; i < z.rows(); i++) {
-    for (int j = 0; j < z.cols(); j++) {
-      zDeriv(i, j) = z(i, j) > 0;
-    }
-  }
-
-  return zDeriv;
+Eigen::MatrixXd ReLuDeriv(const Eigen::MatrixXd &z) {
+  // Returns elementwise the value of (z > 0) - either 1 or 0.
+  return (z.array() > 0.0).cast<double>().matrix();
 }
 
 // For each column, caclulate e^{z_i} / (sum e^{z_i}).
@@ -285,7 +274,7 @@ int main() {
             << std::endl;
   std::cout << "m_train: " << m_train << std::endl;
 
-  gradient_descent(X_train, Y_train, 0.10, 500);
+  gradient_descent(X_train, Y_train, 0.10, 1000);
 
   return 0;
 }

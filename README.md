@@ -157,3 +157,13 @@ Make a neural network that can recognise handwritten numbers from 0-9. That is, 
 ### Training data
 
 The dataset comes from the MNIST database, a pretty well known collection of handwritten digits from 0 to 9. Once trained the neural network should be able to recognise handwritten numbers it has never seen before.
+
+# Code Optimisations
+
+## Algorithms
+
+- Use vectorised functions from the `Eigen` library instead of operations like loops. The functions in `Eigen` are optimised and use things like template metaprogramming (which is optimised at compile time).
+
+## Compiling
+
+- `-O3` compile optimisation flag makes the program super fast!
