@@ -59,7 +59,7 @@ $$A_i^{[2]} = \frac{e^{Z_i^{[2]}}}{\sum_j e^{Z_j^{[2]}}}$$
 
 ## Compute Loss Function
 
-$$ J = -\frac{1}{m} \sum_{i=1}^{m} \sum_{j=1}^{n^{[2]}} Y_j ^{(i)} \log (A_j ^{[2](i)}) $$
+$$ J = -\frac{1}{m} \sum_{i=1}^{m} \sum_{j=1}^{n^{[2]}} Y_{j}^{(i)} \log\Bigl( A_{j}^{[2](i)} \Bigr) $$
 
 - Measures the difference between the predicted outputs $A^{[2]}$ and the true labels $Y$.
 - Symbols 
