@@ -10,7 +10,7 @@ CXXFLAGS = -O3 -Wall -Wextra -std=c++20
 LDFLAGS = 
 
 # Source files
-SRC = main.cpp 
+SRC = main.cpp ./NeuralNetwork/NeuralNetwork.cpp
 
 # Put all the obj files in an `obj` directory so the codebase isn't filled with them
 ODIR = obj
